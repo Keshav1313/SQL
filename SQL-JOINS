@@ -1,0 +1,97 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@Keshav1313 
+0
+0 0 Keshav1313/Python
+ Code  Issues 0  Pull requests 0  Projects 1  Wiki  Security  Insights  Settings
+Python/SQL JOins
+@Keshav1313 Keshav1313 Update SQL JOins
+2485d49 on Mar 19
+68 lines (55 sloc)  1.4 KB
+    
+#=========================================SELF JOIN===========================================================#
+
+
+mysql> create table study(
+    -> s_id VARCHAR(5),
+    -> c_id VARCHAR(5),
+    -> year INT(5)
+    -> );
+Query OK, 0 rows affected (0.59 sec)
+
+mysql> SHOW TABLES;
++------------------+
+| Tables_in_my_sql |
++------------------+
+| player           |
+| student          |
+| study            |
+| tutorials_tbl    |
++------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM study;
+Empty set (0.00 sec)
+
+mysql> insert into study(s_id,c_id,year)
+    -> values('S1','C1',2016);
+Query OK, 1 row affected (0.24 sec)
+
+mysql> select * from study;
++------+------+------+
+| s_id | c_id | year |
++------+------+------+
+| S1   | C1   | 2016 |
++------+------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into study(s_id,c_id,year)
+    -> values('S2','C2',2017);
+Query OK, 1 row affected (0.15 sec)
+
+mysql> insert into study(s_id,c_id,year)
+    -> values('S1','C2',2017);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from study;
++------+------+------+
+| s_id | c_id | year |
++------+------+------+
+| S1   | C1   | 2016 |
+| S2   | C2   | 2017 |
+| S1   | C2   | 2017 |
++------+------+------+
+3 rows in set (0.00 sec)
+
+mysql> select T1.s_id from study as T1,
+    -> study as T2
+    -> where T1.s_id=T2.s_id
+    -> and T1.c_id!=T2.c_id;
+    
+   
++------+
+| s_id |
++------+
+| S1   |
+| S1   |
++------+
+2 rows in set (0.00 sec)
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
