@@ -1,0 +1,93 @@
+mysql> select * from employees;
+
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | EMAIL           | PHONE_NUMBER | HIRE_DATE  | JOB_ID   | SALARY | MANAGER_ID | DEPARTMENT_ID |
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+|           1 | Sachin     | Tendulkar | sach@gmail.com  |     95443456 | 2012-03-10 | AD_PRES  |  24000 |       NULL |            90 |
+|           2 | Vinod      | Kumar     | vinod@gmail.com |     98343456 | 2012-05-10 | AD_VP    |  17000 |        111 |            90 |
+|           3 | Raghu      | K         | ragh@gmail.com  |     90041246 | 2011-02-01 | IT_PROG  |  19000 |       NULL |            60 |
+|           4 | Santosh    | Nair      | sant@gmail.com  |     95443456 | 2012-04-19 | AD_VP    |  19000 |        112 |            90 |
+|           5 | John       | Williams  | john@gmail.com  |     94543456 | 2010-10-15 | IT_PROG  |  16000 |       NULL |            60 |
+|           6 | Sushmita   | Sen       | sas@gmail.com   |     94534557 | 2011-06-21 | IT_PROG  |  26000 |       NULL |            60 |
+|           7 | Ravindra   | Raj       | rav@gmail.com   |    865654557 | 2010-08-17 | IT_PROG  |   8500 |       NULL |            60 |
+|           8 | Ramesh     | J         | rms@gmail.com   |    889654557 | 2012-08-27 | IT_CLERK |  18500 |        117 |            50 |
+|           9 | Daniel     | king      | dan@gmail.com   |    855654557 | 2010-06-14 | IT_MAN   |  12500 |        117 |            50 |
+|          10 | Keshav     | Sinha     | kes@gmail.com   |    910841708 | 2016-11-22 | IT_WHIT  |  21500 |       NULL |            50 |
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+10 rows in set (0.10 sec)
+
+mysql> help concat
+-------------------------------------Name: 'CONCAT' :Concatination function -----------------------------------------------
+Description:
+Syntax:
+CONCAT(str1,str2,...)
+
+Returns the string that results from concatenating the arguments. May
+have one or more arguments. If all arguments are nonbinary strings, the
+result is a nonbinary string. If the arguments include any binary
+strings, the result is a binary string. A numeric argument is converted
+to its equivalent nonbinary string form.
+
+CONCAT() returns NULL if any argument is NULL.
+
+URL: http://dev.mysql.com/doc/refman/8.0/en/string-functions.html
+
+Examples:
+mysql> SELECT CONCAT('My', 'S', 'QL');
+        -> 'MySQL'
+mysql> SELECT CONCAT('My', NULL, 'QL');
+        -> NULL
+mysql> SELECT CONCAT(14.3);
+        -> '14.3'
+        
+        
+mysql> select concat(first_name,last_name) as 'full_name' from employees;
++-----------------+
+| full_name       |
++-----------------+
+| SachinTendulkar |
+| VinodKumar      |
+| RaghuK          |
+| SantoshNair     |
+| JohnWilliams    |
+| SushmitaSen     |
+| RavindraRaj     |
+| RameshJ         |
+| Danielking      |
+| KeshavSinha     |
++-----------------+
+10 rows in set (0.00 sec)
+
+mysql> select concat(first_name,' ',last_name) as 'full_name' from employees;
++------------------+
+| full_name        |
++------------------+
+| Sachin Tendulkar |
+| Vinod Kumar      |
+| Raghu K          |
+| Santosh Nair     |
+| John Williams    |
+| Sushmita Sen     |
+| Ravindra Raj     |
+| Ramesh J         |
+| Daniel king      |
+| Keshav Sinha     |
++------------------+
+10 rows in set (0.00 sec)
+
+mysql> select concat(first_name,' ','gets',' ',salary,' ','as',' ','Salary') as 'salary Details' from employees;
++-------------------------------+
+| salary Details                |
++-------------------------------+
+| Sachin gets 24000 as Salary   |
+| Vinod gets 17000 as Salary    |
+| Raghu gets 19000 as Salary    |
+| Santosh gets 19000 as Salary  |
+| John gets 16000 as Salary     |
+| Sushmita gets 26000 as Salary |
+| Ravindra gets 8500 as Salary  |
+| Ramesh gets 18500 as Salary   |
+| Daniel gets 12500 as Salary   |
+| Keshav gets 21500 as Salary   |
++-------------------------------+
+10 rows in set (0.00 sec)
