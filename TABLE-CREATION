@@ -1,0 +1,110 @@
+mysql> create table EMPLOYEES(
+    -> EMPLOYEE_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> FIRST_NAME VARCHAR(50),
+    -> LAST_NAME VARCHAR(50),
+    -> EMAIL VARCHAR(50),
+    -> PHONE_NUMBER INT(12),
+    -> HIRE_DATE DATE,
+    -> JOB_ID VARCHAR(20),
+    -> SALARY INT(20),
+    -> MANAGER_ID INT(10),
+    -> DEPARTMENT_ID INT(10)
+    -> );
+Query OK, 0 rows affected (0.86 sec)
+
+
+mysql> INSERT INTO EMPLOYEES (EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE_NUMBER,HIRE_DATE,JOB_ID,SALARY,MANAGER_ID,DEPARTMENT_ID)
+    -> VALUES (1,'Sachin','Tendulkar','sach@gmail.com',95443456,'2012-03-10','AD_PRES',24000,Null,90),
+              (2,'Vinod','Kumar','vinod@gmail.com',98343456,'2012-05-10','AD_VP',17000,111,90),
+              (3,'Raghu','K','ragh@gmail.com',90041246,'2011-02-01','IT_PROG',19000,NULL,60),
+              (4,'Santosh','Nair','sant@gmail.com',95443456,'2012-04-19','AD_VP',19000,112,90),
+              (5,'John','Williams','john@gmail.com',94543456,'2010-10-15','IT_PROG',16000,NULL,60),
+              (6,'Sushmita','Sen','sas@gmail.com',94534557,'2011-06-21','IT_PROG',26000,NULL,60),
+              (7,'Ravindra','Raj','rav@gmail.com',865654557,'2010-08-17','IT_PROG',8500,NULL,60),
+              (8,'Ramesh','J','rms@gmail.com',889654557,'2012-08-27','IT_CLERK',18500,117,50),
+              (9,'Daniel','king','dan@gmail.com',855654557,'2010-06-14','IT_MAN',12500,117,50),
+              (10,'Keshav','Sinha','kes@gmail.com',910841708,'2016-11-22','IT_WHIT',21500,NULL,50);
+              
+              
+              
+              
+mysql> SELECT * FROM EMPLOYEES;
+
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+| EMPLOYEE_ID | FIRST_NAME | LAST_NAME | EMAIL           | PHONE_NUMBER | HIRE_DATE  | JOB_ID   | SALARY | MANAGER_ID | DEPARTMENT_ID |
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+|           1 | Sachin     | Tendulkar | sach@gmail.com  |     95443456 | 2012-03-10 | AD_PRES  |  24000 |       NULL |            90 |
+|           2 | Vinod      | Kumar     | vinod@gmail.com |     98343456 | 2012-05-10 | AD_VP    |  17000 |        111 |            90 |
+|           3 | Raghu      | K         | ragh@gmail.com  |     90041246 | 2011-02-01 | IT_PROG  |  19000 |       NULL |            60 |
+|           4 | Santosh    | Nair      | sant@gmail.com  |     95443456 | 2012-04-19 | AD_VP    |  19000 |        112 |            90 |
+|           5 | John       | Williams  | john@gmail.com  |     94543456 | 2010-10-15 | IT_PROG  |  16000 |       NULL |            60 |
+|           6 | Sushmita   | Sen       | sas@gmail.com   |     94534557 | 2011-06-21 | IT_PROG  |  26000 |       NULL |            60 |
+|           7 | Ravindra   | Raj       | rav@gmail.com   |    865654557 | 2010-08-17 | IT_PROG  |   8500 |       NULL |            60 |
+|           8 | Ramesh     | J         | rms@gmail.com   |    889654557 | 2012-08-27 | IT_CLERK |  18500 |        117 |            50 |
+|           9 | Daniel     | king      | dan@gmail.com   |    855654557 | 2010-06-14 | IT_MAN   |  12500 |        117 |            50 |
+|          10 | Keshav     | Sinha     | kes@gmail.com   |    910841708 | 2016-11-22 | IT_WHIT  |  21500 |       NULL |            50 |
++-------------+------------+-----------+-----------------+--------------+------------+----------+--------+------------+---------------+
+
+mysql> CREATE TABLE DEPARTMENTS(
+    -> DEPARTMENT_ID INT(6),
+    -> DEPARTMENT_NAME VARCHAR(25),
+    -> MANAGER_ID INT(6),
+    -> EMPLOYEE_ID INT(6),
+    -> FOREIGN KEY(EMPLOYEE_ID) REFERENCES EMPLOYEES(EMPLOYEE_ID)
+    -> );
+Query OK, 0 rows affected (1.40 sec)
+
+
+mysql> INSERT INTO DEPARTMENTS(DEPARTMENT_ID,DEPARTMENT_NAME,MANAGER_ID,EMPLOYEE_ID)
+    -> VALUES (40,'ADMIN',111,4),
+              (50,'IT',117,10),
+              (60,'MARKETING',112,1),
+              (70,'SALES',111,6),
+              (80,'EXECUTIVE',NULL,5),
+              (90,'IT',117,9);
+Query OK, 5 rows affected (0.10 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+
+mysql> SELECT * FROM DEPARTMENTS;
++---------------+-----------------+------------+-------------+
+| DEPARTMENT_ID | DEPARTMENT_NAME | MANAGER_ID | EMPLOYEE_ID |
++---------------+-----------------+------------+-------------+
+|            40 | ADMIN           |        111 |           4 |
+|            50 | IT              |        117 |          10 |
+|            60 | MARKETING       |        112 |           1 |
+|            70 | SALES           |        111 |           6 |
+|            80 | EXECUTIVE       |       NULL |           5 |
+|            90 | IT              |        117 |           9 |
++---------------+-----------------+------------+-------------+
+6 rows in set (0.00 sec)
+
+
+mysql> SELECT EMPLOYEES.FIRST_NAME,DEPARTMENTS.DEPARTMENT_NAME
+    -> FROM EMPLOYEES INNER JOIN DEPARTMENTS
+    -> ON EMPLOYEES.EMPLOYEE_ID=DEPARTMENTS.EMPLOYEE_ID;
++------------+-----------------+
+| FIRST_NAME | DEPARTMENT_NAME |
++------------+-----------------+
+| Santosh    | ADMIN           |
+| Keshav     | IT              |
+| Sachin     | MARKETING       |
+| Sushmita   | SALES           |
+| John       | EXECUTIVE       |
+| Daniel     | IT              |
++------------+-----------------+
+6 rows in set (0.00 sec)
+
+
+
+mysql> select * from (SELECT EMPLOYEES.FIRST_NAME,DEPARTMENTS.DEPARTMENT_NAME
+    -> FROM EMPLOYEES INNER JOIN DEPARTMENTS
+    -> ON EMPLOYEES.EMPLOYEE_ID=DEPARTMENTS.EMPLOYEE_ID) AS E
+    -> where DEPARTMENT_NAME='IT';
++------------+-----------------+
+| FIRST_NAME | DEPARTMENT_NAME |
++------------+-----------------+
+| Keshav     | IT              |
+| Daniel     | IT              |
++------------+-----------------+
+2 rows in set (0.07 sec)
